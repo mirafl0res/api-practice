@@ -4,7 +4,7 @@ const fetchPokemon = async () => {
   try {
     // 1. Fetch list of first 151 Pokémon
     const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
-    // Parse JSON response into JS objet
+    // Parse JSON response into JS object
     const parsedPokemon = await response.json();
 
     // 2. Loop through each Pokémon
@@ -29,7 +29,14 @@ const fetchPokemon = async () => {
         statsContainer.appendChild(statElement); // Add stat to stats container
       }
 
-      // Append name and stats to the Pokémon element
+      // Create <img> element for current Pokémon
+      const pokemonArtwork = document.createElement("img");
+      pokemonArtwork.classList.add("pokemon-img")
+      pokemonArtwork.src = pokemonData.sprites.other["official-artwork"].front_default;
+
+
+      // Append name, stats and img to the Pokémon element
+      pokemonContainer.appendChild(pokemonArtwork);
       pokemonContainer.appendChild(pokemonName);
       pokemonContainer.appendChild(statsContainer);
 
@@ -75,3 +82,8 @@ fetch("https://pokeapi.co/api/v2/pokemon?limit=151")n((response) => {
 });
 
 */
+
+
+
+
+// species.official-artwork.front_default
