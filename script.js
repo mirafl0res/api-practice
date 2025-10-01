@@ -22,18 +22,29 @@ const fetchPokemon = async () => {
       const pokemonResponse = await fetch(pokemon.url);
       const pokemonData = await pokemonResponse.json();
 
-      // Create <div> element to hold current Pokémons stats
-      const statsContainer = document.createElement("div");
-      for (const statistic of pokemonData.stats) {
-        const statElement = document.createElement("p");
-        statElement.textContent = `${statistic.stat.name}: ${statistic.base_stat}`;
-        statsContainer.appendChild(statElement); // Add stat to stats container
-      }
-
       // Create <img> element for current Pokémon
       const pokemonArtwork = document.createElement("img");
       pokemonArtwork.classList.add("pokemon-img")
       pokemonArtwork.src = pokemonData.sprites.other["official-artwork"].front_default;
+
+      // Create <div> element to hold current Pokémons stats
+      const statsContainer = document.createElement("div");
+      for (const statistic of pokemonData.stats) {
+        const statElement = document.createElement("p");
+        statElement.classList.add("stat-element");
+        const statName = document.createElement("span");
+        statName.classList.add("stat-name");
+        const baseStat = document.createElement("span");
+
+        statName.textContent = `${statistic.stat.name}:`;
+        baseStat.textContent = statistic.base_stat;
+        statElement.appendChild(statName);
+        statElement.appendChild(baseStat);
+
+        
+        statsContainer.appendChild(statElement); // Add stat to stats container
+      }
+
 
 
       // Append name, stats and img to the Pokémon element
