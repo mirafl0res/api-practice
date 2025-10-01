@@ -26,7 +26,17 @@ const fetchPokemon = async () => {
       const statsContainer = document.createElement("div");
       for (const statistic of pokemonData.stats) {
         const statElement = document.createElement("p");
-        statElement.textContent = `${statistic.stat.name}: ${statistic.base_stat}`;
+        statElement.classList.add("stat-element");
+        const statName = document.createElement("span");
+        statName.classList.add("stat-name");
+        const baseStat = document.createElement("span");
+
+        statName.textContent = `${statistic.stat.name}:`;
+        baseStat.textContent = statistic.base_stat;
+        statElement.appendChild(statName);
+        statElement.appendChild(baseStat);
+
+        
         statsContainer.appendChild(statElement); // Add stat to stats container
       }
 
