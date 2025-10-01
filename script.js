@@ -11,11 +11,12 @@ const fetchPokemon = async () => {
     for (const pokemon of parsedPokemon.results) {
       // Create <div> element for current Pokémon
       const pokemonContainer = document.createElement("div");
-      pokemonContainer.classList.add("pokemon");
+      pokemonContainer.classList.add("pokemon-container");
 
       // Create <p> for current Pokémons name
       const pokemonName = document.createElement("p");
-      pokemonName.textContent = pokemon.name;
+      pokemonName.classList.add("pokemon-name");
+      pokemonName.textContent = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
 
       // Fetch detailed data for current Pokémon
       const pokemonResponse = await fetch(pokemon.url);

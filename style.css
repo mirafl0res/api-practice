@@ -6,12 +6,16 @@
 }
 
 
-.pokemon {
+.pokemon-container {
     border-style: ridge;
     margin: 2px;
     background-color: antiquewhite;
 }
 
 .pokemon-img {
-    width: 100px;
+    width: 100%;
+}
+
+.pokemon-name {
+    font-weight: 600;
 }
