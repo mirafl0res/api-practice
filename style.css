@@ -1,11 +1,27 @@
+:root {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  margin: .5rem;
+
+}
+/* .montserrat-font {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+} */
+
 body {
   background-color: rgba(80, 15, 0, 0.59);
+  
 }
 
 .pokemon-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  width: 90%;
+  /* width: 100%; */
   margin: 0 auto;
   /* grid-auto-flow: row;
   grid-auto-rows: minmax(100px, auto); */
@@ -16,6 +32,7 @@ body {
   justify-self: center;
   border-style: outset;
   border-color: black;
+  /* max-width: 220px; */
   margin: 0.5rem;
   padding: 0.5rem;
   background-color: rgb(209, 190, 177);
@@ -23,12 +40,12 @@ body {
   box-shadow: 1px 3px 10px;
 }
 
-.pokemon-img {
+.img-element {
   width: 100%;
   height: auto;
 }
 
-.pokemon-name {
+.name-element {
   font-weight: bold;
   color: rgb(230, 251, 0);
   font-size: 1.2rem;
@@ -36,9 +53,8 @@ body {
   text-shadow: 2px 2px 4px rgba(6, 6, 6, 0.467);
 }
 
-.stat-name {
-  font-weight: bold;
-  font-size: 1rem;
+.stat-name-element {
+  font-weight: 600;
 }
 
 .stat-element {
@@ -48,4 +64,5 @@ body {
   margin-top: 0;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
+  font-size: 0.8rem;
 }

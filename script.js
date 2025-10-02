@@ -1,101 +1,76 @@
+const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=151";
 const pokemonList = document.querySelector(".pokemon-list");
 
-const fetchPokemon = async () => {
+const fetchPokemons = async () => {
   try {
-    // 1. Fetch list of first 151 Pokémon
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
-    // Parse JSON response into JS object
-    const parsedPokemon = await response.json();
+    const response = await fetch(API_URL);
+    const parsedData = await response.json();
+    console.log(parsedData);
 
-    // 2. Loop through each Pokémon
-    for (const pokemon of parsedPokemon.results) {
-      // Create <div> element for current Pokémon
-      const pokemonContainer = document.createElement("div");
-      pokemonContainer.classList.add("pokemon-container");
-
-      // Create <p> for current Pokémons name
-      const pokemonName = document.createElement("p");
-      pokemonName.classList.add("pokemon-name");
-      pokemonName.textContent = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-
-      // Fetch detailed data for current Pokémon
-      const pokemonResponse = await fetch(pokemon.url);
-      const pokemonData = await pokemonResponse.json();
-
-      // Create <img> element for current Pokémon
-      const pokemonArtwork = document.createElement("img");
-      pokemonArtwork.classList.add("pokemon-img")
-      pokemonArtwork.src = pokemonData.sprites.other["official-artwork"].front_default;
-
-      // Create <div> element to hold current Pokémons stats
-      const statsContainer = document.createElement("div");
-      for (const statistic of pokemonData.stats) {
-        const statElement = document.createElement("p");
-        statElement.classList.add("stat-element");
-        const statName = document.createElement("span");
-        statName.classList.add("stat-name");
-        const baseStat = document.createElement("span");
-
-        statName.textContent = `${statistic.stat.name}:`;
-        baseStat.textContent = statistic.base_stat;
-        statElement.appendChild(statName);
-        statElement.appendChild(baseStat);
-
-        
-        statsContainer.appendChild(statElement); // Add stat to stats container
-      }
-
-
-
-      // Append name, stats and img to the Pokémon element
-      pokemonContainer.appendChild(pokemonArtwork);
-      pokemonContainer.appendChild(pokemonName);
-      pokemonContainer.appendChild(statsContainer);
-
-      // Append complete Pokémon element to the main pokemon list.
-      pokemonList.appendChild(pokemonContainer);
-    }
+    const pokemons = parsedData.results;
+    return pokemons;
   } catch (error) {
     console.error("Failed to fetch Pokémon", error);
   }
 };
 
+const displayPokemons = async () => {
+  try {
+    const pokemons = await fetchPokemons();
 
-fetchPokemon();
+    for (const pokemon of pokemons) {
+      const response = await fetch(pokemon.url);
+      const pokemonInfo = await response.json();
+      const pokemonName =
+        pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+      const pokemonImg =
+        pokemonInfo.sprites.other["official-artwork"].front_default;
+      const pokemonStats = pokemonInfo.stats;
 
-/*
-// --- "THEN" VERSION --- 
-
-const pokemonList = document.querySelector(".pokemon-list");
-fetch("https://pokeapi.co/api/v2/pokemon?limit=151")n((response) => {
-  response.json()n((parsedPokemon) => {
-    console.log("Parsed data:", parsedPokemon);
-
-    for (const pokemon of parsedPokemon.results) {
       const pokemonContainer = document.createElement("div");
-      pokemonContainer.classList.add("pokemon");
+      pokemonContainer.classList.add("pokemon-container");
 
-      const pokemonName = document.createElement("p");
-      pokemonName.textContent = pokemon.name;
+      const imgElement = document.createElement("img");
+      imgElement.classList.add("img-element");
+      imgElement.src = pokemonImg;
+      imgElement.alt = `Artwork depicting the pokémon ${pokemonName}`;
+      imgElement.title = `Artwork depicting the pokémon ${pokemonName}`;
 
-      const pokemonId = document.createElement("p");
+      const nameElement = document.createElement("p");
+      nameElement.classList.add("name-element");
+      nameElement.textContent = pokemonName;
 
-      fetch(pokemon.url)n((response) => {
-        response.json()n((parsedPokemonUrl) => {
-          pokemonId.textContent = `Pokémon ID: ${parsedPokemonUrl.id}`;
-        });
-      });
+      const statsContainer = document.createElement("div");
+      statsContainer.classList.add("stats-container");
 
-      pokemonContainer.appendChild(pokemonName);
-      pokemonContainer.appendChild(pokemonId);
+      for (const stat of pokemonStats) {
+        const statElement = document.createElement("p");
+        statElement.classList.add("stat-element");
+
+        const statNameElement = document.createElement("span");
+        statNameElement.classList.add("stat-name-element");
+        const statName = stat.stat.name;
+        statNameElement.textContent =
+          statName.charAt(0).toUpperCase() + statName.slice(1);
+
+        const baseStatElement = document.createElement("span");
+        baseStatElement.classList.add("base-stat-element");
+        const baseStat = stat.base_stat;
+        baseStatElement.textContent = baseStat;
+
+        statElement.appendChild(statNameElement);
+        statElement.appendChild(baseStatElement);
+        statsContainer.appendChild(statElement);
+      }
+
+      pokemonContainer.appendChild(imgElement);
+      pokemonContainer.appendChild(nameElement);
+      pokemonContainer.appendChild(statsContainer);
       pokemonList.appendChild(pokemonContainer);
     }
-  });
-});
+  } catch (error) {
+    console.error("Failed to display Pokémon", error);
+  }
+};
 
-*/
-
-
-
-
-// species.official-artwork.front_default
+displayPokemons();
