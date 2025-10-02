@@ -44,54 +44,39 @@ const displayPokemons = async () => {
       statsContainer.classList.add("stats-container");
       
       const pokemonType = pokemonInfo.types;
-      const typeElement = document.createElement("p");
-      typeElement.classList.add("type-element")
+      const typeElement = document.createElement("div");
+      typeElement.classList.add("type-element");
       
-      for (const t of pokemonType) {
-        const typeName = t.type.name;
-        const typeInfo = t.type.url;
-        const typeNameElement = document.createElement("span");
-        typeNameElement.textContent = typeName;
-        typeElement.appendChild(typeNameElement);
-      }
+      for (const type of pokemonType) {
+        const typeName = type.type.name;
+        const response = await fetch(type.type.url);
+        const typeInfo = await response.json();
 
+        const typeSprite = typeInfo.sprites["generation-viii"]["sword-shield"].name_icon;
+        const spriteElement = document.createElement("img");
+        spriteElement.src = typeSprite;
+        spriteElement.alt = `Type: ${typeName}`;
+        spriteElement.title = `Type: ${typeName}`;
+
+        typeElement.appendChild(spriteElement);
+      }
+      
       statsContainer.appendChild(typeElement);
-
-      /*
-            for (const t of pokemonType) {
-        const typeName = t.type.name;
-        const typeInfo = t.type.url;
-        const typeNameElement = document.createElement("span");
-        const typeInfoElement = document.createElement("span");
-
-        typeNameElement.textContent = typeName;
-        typeInfoElement.textContent = typeInfo;
-
-        typeElement.appendChild(typeNameElement);
-      }
-
-
-      */
-
-
-
-
       
       for (const stat of pokemonStats) {
         const statElement = document.createElement("p");
         statElement.classList.add("stat-element");
-
+        
         const statNameElement = document.createElement("span");
         statNameElement.classList.add("stat-name-element");
         const statName = stat.stat.name;
-        statNameElement.textContent =
-          statName.charAt(0).toUpperCase() + statName.slice(1);
-
+        statNameElement.textContent = statName.charAt(0).toUpperCase() + statName.slice(1);
+        
         const baseStatElement = document.createElement("span");
         baseStatElement.classList.add("base-stat-element");
         const baseStat = stat.base_stat;
         baseStatElement.textContent = baseStat;
-
+        
         statElement.appendChild(statNameElement);
         statElement.appendChild(baseStatElement);
         statsContainer.appendChild(statElement);
