@@ -66,3 +66,8 @@ body {
   margin-right: 0.5rem;
   font-size: 0.8rem;
 }
+
+.type-element {
+  display: flex;
+  justify-content: space-around;
+}

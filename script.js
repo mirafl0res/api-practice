@@ -21,28 +21,62 @@ const displayPokemons = async () => {
     for (const pokemon of pokemons) {
       const response = await fetch(pokemon.url);
       const pokemonInfo = await response.json();
-      const pokemonName =
-        pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-      const pokemonImg =
-        pokemonInfo.sprites.other["official-artwork"].front_default;
+      const pokemonName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+      const pokemonImg = pokemonInfo.sprites.other["official-artwork"].front_default;
       const pokemonStats = pokemonInfo.stats;
 
+    
       const pokemonContainer = document.createElement("div");
       pokemonContainer.classList.add("pokemon-container");
-
+      
+      
       const imgElement = document.createElement("img");
       imgElement.classList.add("img-element");
       imgElement.src = pokemonImg;
       imgElement.alt = `Artwork depicting the pokémon ${pokemonName}`;
       imgElement.title = `Artwork depicting the pokémon ${pokemonName}`;
-
+      
       const nameElement = document.createElement("p");
       nameElement.classList.add("name-element");
       nameElement.textContent = pokemonName;
-
+      
       const statsContainer = document.createElement("div");
       statsContainer.classList.add("stats-container");
+      
+      const pokemonType = pokemonInfo.types;
+      const typeElement = document.createElement("p");
+      typeElement.classList.add("type-element")
+      
+      for (const t of pokemonType) {
+        const typeName = t.type.name;
+        const typeInfo = t.type.url;
+        const typeNameElement = document.createElement("span");
+        typeNameElement.textContent = typeName;
+        typeElement.appendChild(typeNameElement);
+      }
 
+      statsContainer.appendChild(typeElement);
+
+      /*
+            for (const t of pokemonType) {
+        const typeName = t.type.name;
+        const typeInfo = t.type.url;
+        const typeNameElement = document.createElement("span");
+        const typeInfoElement = document.createElement("span");
+
+        typeNameElement.textContent = typeName;
+        typeInfoElement.textContent = typeInfo;
+
+        typeElement.appendChild(typeNameElement);
+      }
+
+
+      */
+
+
+
+
+      
       for (const stat of pokemonStats) {
         const statElement = document.createElement("p");
         statElement.classList.add("stat-element");
@@ -62,6 +96,8 @@ const displayPokemons = async () => {
         statElement.appendChild(baseStatElement);
         statsContainer.appendChild(statElement);
       }
+
+      
 
       pokemonContainer.appendChild(imgElement);
       pokemonContainer.appendChild(nameElement);
